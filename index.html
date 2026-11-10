@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CustomFramework</title>
+<link rel="icon" href="data:,">
+<meta name="description" content="A secure, real-time, tab-based web application framework in Go and plain JavaScript. Any business logic on top, an interface people enjoy using all day.">
+<!-- preview card for LinkedIn and other sites -->
+<meta property="og:title" content="CustomFramework">
+<meta property="og:description" content="A secure, real-time, tab-based web application framework in Go and plain JavaScript. Any business logic on top, an interface people enjoy using all day.">
+<meta property="og:image" content="https://george-cd.github.io/customframework-showcase/assets/social-preview.png">
+<meta property="og:url" content="https://george-cd.github.io/customframework-showcase/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  /* Same palette as the framework itself ("Midnight Pro"): deep navy, an
+     indigo-to-violet accent; green only where something is safe. */
+  :root {
+    --bg:#0a0d18; --panel:#111628; --panel2:#182036; --line:#253049;
+    --text:#e8ecf7; --muted:#97a2c0; --accent:#8c98ff; --accent2:#b48cff; --safe:#45e0b4;
+    --font:"Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", sans-serif;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:17px/1.6 var(--font); }
+  a { color:var(--accent); }
+  img, video { display:block; max-width:100%; }
+  .wrap { max-width:1180px; margin:0 auto; padding:0 24px; }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
+
+  nav { display:flex; justify-content:space-between; align-items:center; padding:20px 0; }
+  nav b { font-size:18px; display:flex; align-items:center; gap:10px; }
+  nav b i { font-style:normal; display:grid; place-items:center; width:30px; height:30px; border-radius:8px;
+            background:linear-gradient(135deg, var(--accent), var(--accent2)); color:#0a0d1c; font-size:13px; }
+  nav a { color:var(--text); text-decoration:none; border:1px solid var(--line); border-radius:8px; padding:7px 14px; font-size:15px; }
+  nav a:hover { border-color:var(--accent); }
+
+  /* hero: the product itself */
+  .hero { padding:40px 0 30px; }
+  .hero h1 { font-size:clamp(36px, 5.4vw, 64px); line-height:1.08; letter-spacing:-.02em; margin:0; max-width:16ch; font-weight:700; }
+  .hero p { color:var(--muted); font-size:20px; max-width:60ch; margin:20px 0 0; }
+  .tags { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; }
+  .tags span { border:1px solid var(--line); border-radius:999px; padding:5px 14px; font-size:15px; color:var(--text); background:var(--panel); }
+  .tags span b { color:var(--accent); font-weight:600; }
+  .screen { margin-top:40px; border:1px solid var(--line); border-radius:14px; overflow:hidden;
+            box-shadow:0 30px 80px rgba(0,0,0,.5), 0 0 0 6px rgba(140,152,255,.07); background:var(--panel); }
+  .screen video { width:100%; height:auto; }
+  .caption { color:var(--muted); font-size:14px; margin-top:12px; }
+
+  section.block { padding:80px 0 0; }
+  .split { display:grid; grid-template-columns:minmax(0, 5fr) minmax(0, 7fr); gap:48px; align-items:center; }
+  .split.flip { grid-template-columns:minmax(0, 7fr) minmax(0, 5fr); }
+  .split.flip .text { order:2; }
+  h2 { font-size:32px; line-height:1.15; margin:0 0 16px; letter-spacing:-.01em; }
+  .text p { color:var(--muted); margin:0 0 14px; }
+  ul.points { margin:0; padding:0; list-style:none; display:grid; gap:10px; }
+  ul.points li { padding-left:20px; position:relative; }
+  ul.points li::before { content:""; position:absolute; left:0; top:.62em; width:8px; height:8px; border-radius:2px;
+                         background:linear-gradient(135deg, var(--accent), var(--accent2)); }
+  .shot { border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  .pair { display:grid; gap:16px; }
+
+  /* the request pipeline: the one green moment of the page */
+  .pipeline { border:1px solid rgba(69,224,180,.45); border-radius:16px; padding:36px; margin-top:80px;
+              background:linear-gradient(0deg, rgba(69,224,180,.04), rgba(69,224,180,.04)), var(--panel); }
+  .pipeline h2 .lock { color:var(--safe); margin-right:10px; }
+  .pipeline > p { color:var(--muted); margin:0; max-width:70ch; }
+  .steps { display:grid; gap:12px; margin-top:24px; counter-reset:step; }
+  .step { display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.4fr); gap:16px; align-items:start; }
+  .step q { quotes:none; font-size:17px; background:var(--bg); border-radius:10px; padding:11px 16px 11px 48px;
+            border:1px solid var(--line); position:relative; counter-increment:step; }
+  .step q::before { content:counter(step); position:absolute; left:14px; top:11px; width:22px; height:22px; border-radius:50%;
+                    background:rgba(69,224,180,.15); color:var(--safe); font-size:13px; font-weight:700; display:grid; place-items:center; }
+  .step div { color:var(--muted); padding:11px 0; }
+  .step div b { color:var(--text); font-weight:600; }
+  .note { margin-top:26px; color:var(--muted); font-size:15px; max-width:72ch; }
+
+  .code { margin-top:22px; background:var(--bg); border:1px solid var(--line); border-radius:10px; padding:16px 18px;
+          font:14px/1.55 ui-monospace, "Cascadia Code", Consolas, monospace; color:#c9d1ea; overflow-x:auto; white-space:pre; }
+  .code .c { color:#6f7a98; } .code .k { color:var(--accent2); } .code .s { color:var(--safe); }
+
+  .facts { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:0; margin-top:24px; border-top:1px solid var(--line); }
+  .facts div { padding:22px 22px 22px 0; border-bottom:1px solid var(--line); }
+  .facts b { display:block; font-size:18px; margin-bottom:4px; }
+  .facts span { color:var(--muted); font-size:15px; }
+
+  footer { padding:80px 0 50px; color:var(--muted); font-size:14px; }
+
+  @media (max-width: 860px) {
+    .split, .split.flip { grid-template-columns:minmax(0, 1fr); gap:24px; }
+    .split.flip .text { order:0; }
+    .step { grid-template-columns:1fr; gap:4px; }
+    .step div { padding:0 0 6px; }
+    .facts { grid-template-columns:minmax(0, 1fr); }
+    .pipeline { padding:24px; }
+    section.block { padding-top:56px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <b><i>CF</i>CustomFramework</b>
+    <a href="assets/customframework-demo.mp4">Watch the demo</a>
+  </nav>
+
+  <header class="hero">
+    <h1>Real-time business apps that feel like desktop software.</h1>
+    <p>A web application framework in Go and plain JavaScript. It is built for real-time systems and can carry any business logic: a CRM, a trading back office, a payment desk, an iGaming console. People work in it all day, in many screens at once, and every request is secure by default.</p>
+    <div class="tags">
+      <span><b>Real time</b> over WebSocket</span>
+      <span><b>Any</b> business logic</span>
+      <span><b>Desktop-like</b> tabs and split view</span>
+      <span><b>Signed</b>, one-time requests</span>
+    </div>
+    <div class="screen">
+      <video src="assets/customframework-demo.mp4" poster="assets/poster.jpg" controls muted playsinline preload="metadata"></video>
+    </div>
+    <div class="caption">The demo, 25 seconds: tabs, a pinned tab, a tab group, split view by dragging, the unsaved-changes guard and the light theme. The example app's interface is in Greek.</div>
+  </header>
+
+  <section class="block split">
+    <div class="text">
+      <h2>A workspace, not a website</h2>
+      <p>The app has its own tabs, inside one browser window. Users keep ten customers, two reports and a payment queue open at once, and switch between them instantly.</p>
+      <ul class="points">
+        <li>Split view: two screens side by side, drag a tab to the right, resize the divider</li>
+        <li>Tab groups with a name and a color, folded and unfolded with one click</li>
+        <li>Pinned tabs that stay first and cannot be closed by accident</li>
+        <li>A badge on a hidden tab when something new arrives</li>
+        <li>Pop-out windows for a second monitor, and back again</li>
+        <li>Sidebar or top navigation, dark and light theme</li>
+      </ul>
+    </div>
+    <img class="shot" src="assets/workspace.jpg" alt="Split view: a tab group named Monitoring with unread badges, a pinned tab, files on the left and notes on the right" loading="lazy">
+  </section>
+
+  <section class="block split flip">
+    <div class="text">
+      <h2>Thirty tabs, and still easy to find</h2>
+      <p>Built for people who open many screens and never close them.</p>
+      <ul class="points">
+        <li>A searchable list of all tabs: type three letters, press Enter</li>
+        <li>Fading edges and arrows show that more tabs are hidden</li>
+        <li>Right-click menu: duplicate, pin, group, move, close the others</li>
+        <li>Keyboard: <code>Alt+W</code>, <code>Alt+PgUp/PgDn</code>, <code>Alt+1…9</code></li>
+        <li>Long-press opens the same menu on phones and tablets</li>
+        <li>Every screen has a link, and the browser's Back button works</li>
+      </ul>
+    </div>
+    <img class="shot" src="assets/all-tabs-search.jpg" alt="The list of all open tabs, filtered by typing" loading="lazy">
+  </section>
+
+  <section class="block split">
+    <div class="text">
+      <h2>Nothing gets lost</h2>
+      <p>Not on a refresh, not when a tab sleeps, not when the session ends in the middle of typing.</p>
+      <ul class="points">
+        <li>Closing a screen with unsaved work asks first</li>
+        <li>Screens keep their filters, scroll and drafts when they sleep, on a refresh, when duplicated and in a new window</li>
+        <li>After a refresh, the same tabs come back; only the visible ones load</li>
+        <li>Two minutes before the session ends: a countdown and "Stay signed in"</li>
+        <li>When it ends, the screen stays as it is; the user logs in again in a small window and carries on</li>
+        <li>Tabs left hidden release their memory and load again when opened</li>
+      </ul>
+    </div>
+    <div class="pair">
+      <img class="shot" src="assets/unsaved-changes.jpg" alt="A dialog asks before closing a screen with unsaved changes" loading="lazy">
+      <img class="shot" src="assets/session-warning.jpg" alt="A bar warns that the session ends in 1 minute 44 seconds, with a Stay signed in button" loading="lazy">
+    </div>
+  </section>
+
+  <section class="pipeline" aria-labelledby="security">
+    <h2 id="security"><span class="lock" aria-hidden="true">●</span>Every request passes the same checks</h2>
+    <p>There is one way into the business code, and it is the secure way. Each step runs before the next one, and the server refuses to start with an unsafe configuration.</p>
+    <div class="steps">
+      <div class="step"><q>Origin and forged-request block</q><div>Requests from other sites are refused. An address that keeps sending forged requests is <b>blocked for a while</b>.</div></div>
+      <div class="step"><q>Session and signature</q><div>Every request is <b>signed with HMAC-SHA256</b> over method, path, time, nonce and body. The key never lives in a cookie.</div></div>
+      <div class="step"><q>Time and one-time nonce</q><div>A request copied from the network <b>cannot be sent again</b>, not even to another server behind the load balancer.</div></div>
+      <div class="step"><q>Strict, typed parameters</q><div>Unknown fields, duplicate keys and wrong types are refused. The handler receives a <b>validated Go struct</b>.</div></div>
+      <div class="step"><q>Permission</q><div>Checked by the framework before the handler runs, so <b>no screen can forget it</b>.</div></div>
+      <div class="step"><q>Sealed IDs</q><div>IDs given to the browser are <b>encrypted and bound to the session</b>. Users cannot read them, change them, or use another user's.</div></div>
+    </div>
+    <p class="note">Optional encryption of request and response bodies on top of TLS. Strict Content Security Policy with Trusted Types, HSTS, SameSite and <code>__Host-</code> cookies, Argon2id passwords, login rate limits. TLS built in with Let's Encrypt, or behind nginx with trusted proxies.</p>
+  </section>
+
+  <section class="block split flip">
+    <div class="text">
+      <h2>Real time, built in</h2>
+      <p>Prices, positions, payments, queues and alerts reach the screen the moment they change.</p>
+      <ul class="points">
+        <li>WebSocket, written on Go's standard library</li>
+        <li>Screens subscribe to topics such as <code>prices.EURUSD</code> or <code>client.1042</code>; each user receives only what they may see</li>
+        <li>One connection shared by all tabs, automatic reconnect, optional encryption of every event</li>
+        <li>Polling that pauses while its tab is hidden and refreshes the moment it is shown</li>
+        <li>For very high volumes, realtime moves to a dedicated server (for example in C++) that uses the same one-time tickets</li>
+      </ul>
+    </div>
+    <img class="shot" src="assets/topnav-layout.jpg" alt="The clock screen: a recurring request and a realtime event, in the top-navigation layout" loading="lazy">
+  </section>
+
+  <section class="block split">
+    <div class="text">
+      <h2>Accounts that stay safe</h2>
+      <ul class="points">
+        <li>Two-factor login (TOTP) with a QR code drawn on the server and 10 one-time recovery codes</li>
+        <li>Optional, required for everyone, or required for chosen users such as administrators</li>
+        <li>Active sessions: see every device where you are signed in, and sign out of the others</li>
+        <li>A signed-out device notices within seconds, without a click</li>
+        <li>The app runs in one browser tab; a second one offers to take over and brings the open tabs along</li>
+      </ul>
+    </div>
+    <div class="pair">
+      <img class="shot" src="assets/two-factor-setup.jpg" alt="Two-factor setup with a QR code" loading="lazy">
+      <img class="shot" src="assets/active-sessions.jpg" alt="Active sessions: this computer and an iPhone, with sign-out buttons" loading="lazy">
+    </div>
+  </section>
+
+  <section class="block split flip">
+    <div class="text">
+      <h2>Any business logic</h2>
+      <p>The framework knows nothing about your domain. Each product is a set of modules with its own screens, actions, permissions and data. The framework provides the workspace, the security and the plumbing.</p>
+      <ul class="points">
+        <li>External API for other systems: signed clients, scopes, IP allow-lists, rate limits</li>
+        <li>Calls to other services with an allow-list and protection against SSRF</li>
+        <li>File uploads through the same signed checks: the signature covers the file's SHA-256, and the type is read from the content</li>
+        <li>Components clean up after themselves: closing a tab stops its requests, timers and subscriptions</li>
+      </ul>
+      <div class="code"><span class="k">framework.AddTarget</span>(m, framework.Target[SaveInvoice]{
+    Name: <span class="s">"save"</span>, Permission: <span class="s">"invoices.write"</span>,
+    Handle: <span class="k">func</span>(c *framework.Context, p SaveInvoice) (any, error) {
+        <span class="c">// p is parsed, typed and validated; the user is allowed</span>
+        <span class="k">return</span> saveInvoice(c, p)
+    },
+})</div>
+    </div>
+    <img class="shot" src="assets/signed-upload.jpg" alt="A file upload screen: PDF, PNG or JPEG up to 5 MB, with the uploaded file's type and SHA-256" loading="lazy">
+  </section>
+
+  <section class="block">
+    <h2>Built for production</h2>
+    <div class="facts">
+      <div><b>Secure by default</b><span>The safe path is the only path, and an unsafe configuration stops the server from starting.</span></div>
+      <div><b>Very user friendly</b><span>Tabs, groups and split view, with keyboard and touch. Nothing is lost.</span></div>
+      <div><b>Real time</b><span>WebSocket built in, and a dedicated realtime server when the volume calls for it.</span></div>
+      <div><b>Scales out</b><span>Sessions and replay protection in PostgreSQL, shared by every server behind the load balancer.</span></div>
+      <div><b>Few dependencies</b><span>Go's standard library on the server, plain JavaScript in the browser, no front-end framework.</span></div>
+      <div><b>Tested</b><span>Go tests with the race detector, and browser end-to-end tests for every feature.</span></div>
+    </div>
+  </section>
+
+  <footer>
+    CustomFramework, by George Drakou. This page is a showcase; the source code is private.
+    <a href="https://github.com/george-cd/customframework-showcase">GitHub</a>
+  </footer>
+</div>
+</body>
+</html>
