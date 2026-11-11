@@ -14,12 +14,12 @@
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <script>
-  // The theme before the page draws: the visitor's last choice, else the system setting.
+  // The theme before the page draws: the visitor's last choice, else dark.
   (function () {
     var theme = null;
     try { theme = localStorage.getItem('cf-showcase-theme'); } catch (e) {}
-    if (theme !== 'light' && theme !== 'dark') {
-      theme = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    if (theme !== 'light') {
+      theme = 'dark';
     }
     document.documentElement.setAttribute('data-theme', theme);
   })();
@@ -35,7 +35,7 @@
     --on-accent:#0a0d1c; color-scheme:dark;
   }
   /* Light theme: the same layout, on paper-white. Chosen with the button at the
-     top, or by the visitor's system setting the first time. */
+     top; the first visit is always dark. */
   :root[data-theme="light"] {
     --bg:#f5f6fb; --panel:#ffffff; --panel2:#eef1f8; --line:#d8deec;
     --text:#131a2e; --muted:#56617c; --accent:#4b57d6; --accent2:#7a4ad8; --safe:#0c9a73;
