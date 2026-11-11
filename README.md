@@ -83,6 +83,40 @@ CustomFramework turns this around:
 </tr>
 </table>
 
+### Find anything, or just ask
+
+Press **`Ctrl+K`** to find open tabs, screens, records from the server and actions, in one field. An **assistant** on your own model understands "open customer 1042 and his deposits": it opens screens at once, and every change waits for the user's **Confirm**. It sees and does only what the user may do.
+
+<table>
+<tr>
+<td width="50%"><img src="screenshots/12-command-palette.png" alt="Command palette"><br><sub><code>Ctrl+K</code>: a record found on the server</sub></td>
+<td width="50%"><img src="screenshots/13-assistant.png" alt="Assistant asks to confirm"><br><sub>The assistant shows what it will change and waits</sub></td>
+</tr>
+</table>
+
+### Built for teams
+
+- **Presence:** avatars on a tab show who else has the same screen open, and turn orange while that person is editing it
+- **Saved tab sets:** "Morning dealing desk" opens on any computer with one click
+- **Shift handover:** "Hand my screens to Nikos", and Nikos continues where you stopped
+
+### Safe with real money
+
+- **Four-eyes approval:** one line on an action, `Approval: "payments.approve"`, and it runs only after a second person approves. The one who asked can never approve it, and two approvers at the same moment still run it once. Every decision is recorded.
+- **Never twice:** a double click, or pressing again after a lost answer, runs the action once.
+- **Undo** for five seconds after a delete or a status change.
+
+<table>
+<tr>
+<td width="50%"><img src="screenshots/15-four-eyes.png" alt="Four-eyes approval"><br><sub>The approver sees exactly what will run</sub></td>
+<td width="50%"><img src="screenshots/17-shift-handover.png" alt="Shift handover"><br><sub>Screens handed over at the end of a shift</sub></td>
+</tr>
+<tr>
+<td><img src="screenshots/14-presence.png" alt="Presence"><br><sub>Presence: Maria is editing the Payouts screen</sub></td>
+<td><img src="screenshots/16-undo.png" alt="Undo"><br><sub>"Deleted · Undo"</sub></td>
+</tr>
+</table>
+
 ### Security in every request
 
 ```mermaid
@@ -180,6 +214,10 @@ const result = await this.context.requestTarget('save', { amount: 1500, note: 'M
   components, styles and permissions. The framework stays the same for every product.
 - Components get a `context`. Whatever is started through it is cleaned up when the tab closes:
   requests, timers, recurring polls and realtime subscriptions.
+- `cf new module invoices` writes a working module in one command: screen, actions,
+  search, undo, presence and a test.
+- TypeScript types are made from the Go params, so the editor underlines a wrong field
+  in plain JavaScript, before it ever reaches the server.
 - A built-in memory monitor, a minified and obfuscated production build of the
   browser core, and a Debian deployment guide.
 

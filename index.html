@@ -59,6 +59,7 @@
                          background:linear-gradient(135deg, var(--accent), var(--accent2)); }
   .shot { border:1px solid var(--line); border-radius:12px; overflow:hidden; }
   .pair { display:grid; gap:16px; }
+  .text .shot { margin-top:20px; }
 
   /* the request pipeline: the one green moment of the page */
   .pipeline { border:1px solid rgba(69,224,180,.45); border-radius:16px; padding:36px; margin-top:80px;
@@ -112,6 +113,8 @@
       <span><b>Any</b> business logic</span>
       <span><b>Desktop-like</b> tabs and split view</span>
       <span><b>Signed</b>, one-time requests</span>
+      <span><b>Four-eyes</b> approvals</span>
+      <span><b>Ctrl+K</b> and an assistant</span>
     </div>
     <div class="screen">
       <video src="assets/customframework-demo.mp4" poster="assets/poster.jpg" controls muted playsinline preload="metadata"></video>
@@ -170,6 +173,59 @@
     </div>
   </section>
 
+  <section class="block split flip">
+    <div class="text">
+      <h2>Find anything, or just ask</h2>
+      <p><code>Ctrl+K</code> opens one search field for everything the user may reach: open tabs, screens, records from the server, and actions.</p>
+      <ul class="points">
+        <li>Records come from each module's own search, only where the user has permission</li>
+        <li>Words in any order, without accents: "cust 1042" finds "Customer 1042"</li>
+        <li>Screens add their own actions: "New note", "Close other tabs", "Save tabs as…"</li>
+        <li>An assistant on your own model: "open customer 1042 and his deposits"</li>
+        <li>The assistant opens screens at once, but every change waits for the user's "Confirm"</li>
+        <li>It sees and does only what the user may do; its steps are checked like any request</li>
+      </ul>
+    </div>
+    <div class="pair">
+      <img class="shot" src="assets/command-palette.jpg" alt="The command palette: typing cust finds the record Customer 1042, with Ask the assistant below" loading="lazy">
+      <img class="shot" src="assets/assistant.jpg" alt="The assistant shows the note it wants to create, with its title and body, and waits for Confirm" loading="lazy">
+    </div>
+  </section>
+
+  <section class="block split">
+    <div class="text">
+      <h2>Built for teams</h2>
+      <p>A desk works together on the same customers and the same queue, and hands the work over when the shift ends.</p>
+      <ul class="points">
+        <li>Presence: avatars on a tab show who else has the same screen open</li>
+        <li>The avatar turns orange while the other person is editing it, so two people do not change the same thing</li>
+        <li>Saved tab sets: "Morning dealing desk" opens on any computer with one click</li>
+        <li>Shift handover: "Hand my screens to Nikos", and Nikos continues where you stopped</li>
+        <li>References to records move safely with the screens; the receiver passes every check again</li>
+      </ul>
+      <img class="shot" src="assets/presence-tabs.jpg" alt="Tabs with presence avatars: an orange avatar on Payouts, someone is editing it" loading="lazy">
+    </div>
+    <img class="shot" src="assets/shift-handover.jpg" alt="A message: Maria Ioannou handed you 4 screens, and the folder menu with the handover" loading="lazy">
+  </section>
+
+  <section class="block split flip">
+    <div class="text">
+      <h2>Safe with real money</h2>
+      <p>For payouts, limits and account changes, the framework adds the safeguards a finance team expects, without extra code in every screen.</p>
+      <ul class="points">
+        <li>Four-eyes approval: one line, <code>Approval: "payments.approve"</code>, and the action waits for a second person</li>
+        <li>The one who asked can never approve it; two approvers at the same moment still run it once</li>
+        <li>Approvers are told at once and see exactly what will run; every decision is recorded</li>
+        <li>Never twice: a double click, or a press after a lost answer, runs the action once</li>
+        <li>Undo for five seconds after a delete or a status change</li>
+      </ul>
+    </div>
+    <div class="pair">
+      <img class="shot" src="assets/four-eyes.jpg" alt="The approvals window: a payout of 2500 euros from Maria Ioannou, with Approve and Reject" loading="lazy">
+      <img class="shot" src="assets/undo.jpg" alt="A message: the note Margin call policy was deleted, with an Undo button" loading="lazy">
+    </div>
+  </section>
+
   <section class="pipeline" aria-labelledby="security">
     <h2 id="security"><span class="lock" aria-hidden="true">●</span>Every request passes the same checks</h2>
     <p>There is one way into the business code, and it is the secure way. Each step runs before the next one, and the server refuses to start with an unsafe configuration.</p>
@@ -225,6 +281,8 @@
         <li>Calls to other services with an allow-list and protection against SSRF</li>
         <li>File uploads through the same signed checks: the signature covers the file's SHA-256, and the type is read from the content</li>
         <li>Components clean up after themselves: closing a tab stops its requests, timers and subscriptions</li>
+        <li><code>cf new module invoices</code> writes a working module: screen, actions, search, undo and a test</li>
+        <li>TypeScript types made from the Go params: the editor underlines a wrong field in plain JavaScript</li>
       </ul>
       <div class="code"><span class="k">framework.AddTarget</span>(m, framework.Target[SaveInvoice]{
     Name: <span class="s">"save"</span>, Permission: <span class="s">"invoices.write"</span>,
@@ -245,6 +303,8 @@
       <div><b>Real time</b><span>WebSocket built in, and a dedicated realtime server when the volume calls for it.</span></div>
       <div><b>Scales out</b><span>Sessions and replay protection in PostgreSQL, shared by every server behind the load balancer.</span></div>
       <div><b>Few dependencies</b><span>Go's standard library on the server, plain JavaScript in the browser, no front-end framework.</span></div>
+      <div><b>Made for desks</b><span>Presence, shift handover and four-eyes approval, built into the framework.</span></div>
+      <div><b>Fast to build on</b><span>One command writes a new module, and the editor knows every param from the Go code.</span></div>
       <div><b>Tested</b><span>Go tests with the race detector, and browser end-to-end tests for every feature.</span></div>
     </div>
   </section>
